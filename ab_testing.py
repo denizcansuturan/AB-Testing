@@ -1,5 +1,5 @@
 ######################################################
-# Temel İstatistik Kavramları
+# Basic Statistics
 ######################################################
 
 import itertools
@@ -19,7 +19,7 @@ pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 
 ############################
-# Sampling (Örnekleme)
+# Sampling 
 ############################
 
 populasyon = np.random.randint(0, 80, 10000)
@@ -62,10 +62,10 @@ df = sns.load_dataset("tips")
 df.describe().T
 
 ############################
-# Confidence Intervals (Güven Aralıkları)
+# Confidence Intervals 
 ############################
 
-# Tips Veri Setindeki Sayısal Değişkenler için Güven Aralığı Hesabı
+# Confidence Interval Calculation for Numeric Variables in the Tips Dataset
 df = sns.load_dataset("tips")
 df.describe().T
 # restaurant owner needs the total bill on a bad day
@@ -80,8 +80,12 @@ sms.DescrStatsW(df["total_bill"]).tconfint_mean()
 # this way, owner knows the best and worst scenario with 5% mistake probability in a day
 
 sms.DescrStatsW(df["tip"]).tconfint_mean()
+# confidence interval is calculated above
+# it means that in any sample that is from this total bill population
+# total bill will be in this interval with 95% probability.
+# this way, owner knows the best and worst scenario with 5% mistake probability in a day
 
-# Titanic Veri Setindeki Sayısal Değişkenler için Güven Aralığı Hesabı
+# Confidence Interval Calculation for Numeric Variables in the Titanic Dataset
 df = sns.load_dataset("titanic")
 df.describe().T
 
@@ -92,18 +96,8 @@ sms.DescrStatsW(df["fare"].dropna()).tconfint_mean()
 
 
 ######################################################
-# Correlation (Korelasyon)
+# Correlation 
 ######################################################
-
-
-# Bahşiş veri seti:
-# total_bill: yemeğin toplam fiyatı (bahşiş ve vergi dahil)
-# tip: bahşiş
-# sex: ücreti ödeyen kişinin cinsiyeti (0=male, 1=female)
-# smoker: grupta sigara içen var mı? (0=No, 1=Yes)
-# day: gün (3=Thur, 4=Fri, 5=Sat, 6=Sun)
-# time: ne zaman? (0=Day, 1=Night)
-# size: grupta kaç kişi var?
 
 df = sns.load_dataset('tips')
 df.head()
@@ -204,9 +198,6 @@ test_stat, pvalue = ttest_ind(df.loc[df["smoker"] == "Yes", "total_bill"],
 
 print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))
 
-# p-value < ise 0.05 'ten HO RED.
-# p-value < değilse 0.05 H0 REDDEDILEMEZ.
-
 ############################
 # 2.If assumptions are not met, use Mann-Whitney U test (non-parametric test).
 ############################
@@ -215,11 +206,6 @@ test_stat, pvalue = mannwhitneyu(df.loc[df["smoker"] == "Yes", "total_bill"],
                                  df.loc[df["smoker"] == "No", "total_bill"])
 
 print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))
-
-
-
-
-
 
 ############################
 # Application 2: Is there a statistically significant difference between the average ages of male and female passengers on the Titanic?
@@ -232,8 +218,8 @@ df.groupby("sex").agg({"age": "mean"})
 
 
 # 1. Formulate Hypothesis:
-# H0: M1  = M2 (Kadın ve Erkek Yolcuların Yaş Ortalamaları Arasında İstatistiksel Olarak Anl. Fark. Yoktur)
-# H1: M1! = M2 (... vardır)
+# H0: M1  = M2 
+# H1: M1! = M2 
 
 # 2. Assumption Checks
 
@@ -265,19 +251,6 @@ test_stat, pvalue = mannwhitneyu(df.loc[df["sex"] == "female", "age"].dropna(),
 print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ############################
 # Application 3: Is there a statistically significant difference between the average ages of individuals with and without diabetes?
 ############################
@@ -307,7 +280,6 @@ test_stat, pvalue = shapiro(df.loc[df["Outcome"] == 0, "Age"].dropna())
 print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))
 
 
-
 # Since Normality Assumption is being met nonparametic test will be used.
 
 # Hypothesis (H0: M1 = M2)
@@ -323,7 +295,7 @@ print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))
 # H0: M1 = M2 (There is not statistically important difference between scores)
 # H1: M1 != M2 (There is statistically important difference between scores)
 
-df = pd.read_csv("D:/MIUUL/MEASUREMENT PROBLEMS/measurement_problems/rating/course_reviews.csv")
+df = pd.read_csv("course_reviews.csv")
 df.head()
 
 df[(df["Progress"] > 75)]["Rating"].mean()
@@ -368,7 +340,7 @@ successful / observation
 
 
 ############################
-# Application: Is there a statistically significant difference between the survival rates of women and men?
+# Application 1: Is there a statistically significant difference between the survival rates of women and men?
 #############################
 
 # H0: p1 = p2 (p1 - p2 = 0)
@@ -426,7 +398,6 @@ for group in list(df["day"].unique()):
     print(group, 'p-value: %.4f' % pvalue)
 
 
-# H0: Varyans homojenliği varsayımı sağlanmaktadır.
 
 test_stat, pvalue = levene(df.loc[df["day"] == "Sun", "total_bill"],
                            df.loc[df["day"] == "Sat", "total_bill"],
