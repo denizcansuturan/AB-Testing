@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-# !pip install statsmodels
 import statsmodels.stats.api as sms
 from scipy.stats import ttest_1samp, shapiro, levene, ttest_ind, mannwhitneyu, \
     pearsonr, spearmanr, kendalltau, f_oneway, kruskal
@@ -27,7 +26,7 @@ populasyon = np.random.randint(0, 80, 10000)
 # let's say it is age info of 10000 people
 populasyon.mean()
 # why do we work with the sample and not the population.
-#
+
 
 
 np.random.seed(115)
